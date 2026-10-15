@@ -1,14 +1,32 @@
-# Processing historical node observations
+<!--
+Document-ID: MeshWrangler/docs/PROCESSING.md
+Document-Version: 1.0.1
+Document-Revised: 2026-10-15
+Previous-Document-Version: unversioned (published v1.1.0)
+-->
 
-MeshWrangler reads **working copies** of application databases from multiple device/application sources, exports records, consolidates the data with source attribution, and produces quality reports for analysis. Preserve your original data independently.
+# Processing node data
 
-## Existing input layout
+MeshWrangler extracts and consolidates node observations from **working copies** of application-generated databases. It does not back up, restore, or modify the source application’s data. Preserve your originals separately.
 
-The Meshtastic iOS application supplies the `Documents/NodeBackups/` directory structure, including `backup-index.json` (with its `backupPath` field) and indexed `<UUID>/Meshtastic.store` device database files. Associated SQLite `Meshtastic.store-wal` and `Meshtastic.store-shm` files may also be present. Copy the application-provided structure intact for analysis; MeshWrangler reads it without requiring renames or reorganization. Within that *working copy*, MeshWrangler may add its scripts, logs, `exports/`, and other processing outputs. `backup_folder` is an output/source-attribution field created by MeshWrangler, not part of the supplied index. None of these names implies a MeshWrangler backup or recovery feature.
+## Prepare the working copy
 
-## Run the three processing stages
+1. Copy the application-generated `Documents/NodeBackups/` collection to a private working directory. Keep `backup-index.json`, its indexed subdirectories, and database files together. Do **not** rename or reorganize them.
+2. The index identifies each source by its `backupPath`. Source directory names can be UUIDs or names such as `node-49131228`; an index entry may omit `deviceId`.
+3. Keep each source's `Meshtastic.store` database with any associated `Meshtastic.store-wal` and `Meshtastic.store-shm` files when making the copy.
+4. Copy the six runnable files from the repository's `src/` directory into the working `NodeBackups/` directory. Python 3 is required; see [Compatibility](COMPATIBILITY.md).
 
-Copy the six working files from `src/` into the same source collection directory, then open a terminal there. The source index `backup-index.json` and indexed device subdirectories stay in that directory. Python 3 is required; see [compatibility](COMPATIBILITY.md). Run `./wrangle_it_v1.sh` (or `bash wrangle_it_v1.sh` if download/extraction stripped executable permissions). The equivalent manual stages are:
+## Run processing
+
+Open a terminal in the working `NodeBackups/` directory and run:
+
+```bash
+./wrangle_it_v1.sh
+```
+
+If the executable permission was lost while downloading or extracting, use `bash wrangle_it_v1.sh` instead. The launcher runs three stages in order, captures logs under `logs/`, and **stops before later stages if a stage fails**.
+
+To run stages separately:
 
 ```bash
 python3 ./meshtastic_master_export_v1.py
@@ -16,18 +34,17 @@ python3 ./meshtastic_consolidate_v2.py
 python3 ./meshtastic_quality_flags_review_v1.py
 ```
 
-1. **Extraction:** process indexed databases independently. Successful results are retained; existing validated exports may be skipped. An individual source failure is recorded while other sources continue processing. The command can return nonzero when one or more sources fail.
-2. **Consolidation:** build a source-attributed master dataset under `exports/master_data/`. The current consolidator checks that discovered sources have corresponding exports; a missing device export can prevent a complete master consolidation. Previously successful individual exports remain available.
-3. **Quality review:** report node-name variants and public-key conflicts from the consolidated output. Run this stage when a master dataset is available.
+1. **Export:** process the indexed source databases individually and write exports and `exports/master_manifest.json`. Successful source exports are retained even if another source fails. Existing validated exports may be skipped.
+2. **Consolidate:** combine exports with source attribution under `exports/master_data/`. Missing source exports can prevent consolidation. See `exports/master_data/reconciliation_manifest.json` for details.
+3. **Review:** report node-name variants and public-key conflicts from the consolidated dataset. Flags identify records for investigation; they do not automatically resolve conflicts.
 
-Review `exports/master_manifest.json` for extraction results and `exports/master_data/reconciliation_manifest.json` for consolidation results. These manifests contain local absolute source paths (`root` and `source_root`), potentially identifying local usernames and directories: keep them private or redact before sharing. Observations may overlap across source snapshots; record counts are not independent RF receptions. Launcher logs under `logs/` may also include absolute paths, device identifiers, and error details. The repository `.gitignore` excludes `logs/` and `*.log`; keep generated logs private and check already-tracked repository files separately before publication.
+## Explore results
 
-The original `.store` database files are read as inputs and should not be edited in place. Work on copies of source application data. If SQLite write-ahead-log (`-wal`) and shared-memory (`-shm`) sidecars are relevant to a copied database, keep the set consistent when creating the working copy.
+Open [`src/meshtastic_explorer.html`](../src/meshtastic_explorer.html) from the repository, or the copied `meshtastic_explorer.html` in your working directory. Select the working `NodeBackups/` collection or the required consolidated JSON files. See the [Explorer guide](../explorer/EXPLORER_README.md).
 
-## Inspect the results
+## Data handling and privacy
 
-From the repository, open [`../src/meshtastic_explorer.html`](../src/meshtastic_explorer.html); if following the working-copy setup above, open `meshtastic_explorer.html` from the copied `NodeBackups/` directory instead. Select the source collection directory or the required consolidated JSON files. The Explorer uses the outputs in `exports/master_data/`.
-
-## Legacy input identifiers
-
-Application-provided input names include `NodeBackups/`, `backup-index.json`, and its `backupPath` field. MeshWrangler-generated output metadata includes `backup_folder` and `backup_created_utc` (and `backup_path` in its master processing report). The current readers and outputs preserve these names to process existing collections and results; no input-structure changes are required. These identifiers are not backup/recovery features.
+- Keep original application databases untouched. Work from copies; do not discard database sidecars when they are needed for a consistent SQLite snapshot.
+- `backup-index.json` and its `backupPath` entries originate with the application. MeshWrangler's output fields such as `backup_folder`, `backup_path`, and `backup_created_utc` preserve source attribution; they do not indicate a backup/restore feature.
+- Generated exports, manifests, and logs may contain node identifiers, locations, and absolute local paths (including usernames). **Do not publish them without review and redaction.** The `.gitignore` helps avoid accidental additions but does not remove previously tracked files.
+- Counts from multiple snapshots may overlap; they are not counts of independent radio receptions.
