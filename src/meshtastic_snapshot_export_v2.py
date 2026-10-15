@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# MeshWrangler component version: v2.1.0
 """Export ONE Meshtastic Apple 2.7.x SQLite snapshot, read-only.
 
 No third-party dependencies. Exports node summary plus complete raw node,
@@ -9,6 +10,7 @@ import argparse
 import csv
 import hashlib
 import json
+import re
 import sqlite3
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -36,12 +38,18 @@ def convert(v):
         return {'hex': v.hex(), 'bytes': len(v)}
     return v
 
+def csv_cell(value):
+    # Preserve actual numeric fields; neutralize spreadsheet formulas in text.
+    if isinstance(value, str) and re.match(r'^[\s\x00-\x1f\x7f]*[=+@-]', value):
+        return "'" + value
+    return value
+
 def dump_csv(path, data, fields):
     with path.open('w', encoding='utf-8', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=fields, extrasaction='ignore')
         writer.writeheader()
         for rec in data:
-            writer.writerow({k: json.dumps(v, ensure_ascii=False, separators=(',', ':')) if isinstance(v, (dict, list)) else v for k, v in rec.items()})
+            writer.writerow({k: csv_cell(json.dumps(v, ensure_ascii=False, separators=(',', ':')) if isinstance(v, (dict, list)) else v) for k, v in rec.items()})
 
 def dump_json(path, data):
     with path.open('w', encoding='utf-8') as f:
@@ -161,7 +169,7 @@ def main():
             raise RuntimeError(f'Identity checks failed: {checks}')
         manifest = {
             'export_version': 2, 'exported_at_utc': datetime.now(timezone.utc).isoformat(),
-            'source': {'backup_folder': entry_id, 'device_id': entry['deviceId'],
+            'source': {'backup_folder': entry_id, 'device_id': entry.get('deviceId', entry_id),
                        'node_num': source_num, 'node_hex': source_hex,
                        'long_name': source['long_name'], 'short_name': source['short_name'],
                        'hardware': source['hardware']},

@@ -23,7 +23,7 @@ The repository includes four current Python source utilities and does not includ
 
 From the repository tree, open [`src/meshtastic_explorer.html`](src/meshtastic_explorer.html) in a compatible desktop browser. If you copied the six runnable files into your private `NodeBackups/` working collection as instructed above, you can instead open `meshtastic_explorer.html` from that working copy; both are the same Explorer file. After running the three processing stages, choose your private source collection folder (existing layout: `NodeBackups/`) in the file picker. The Explorer locates the consolidated dataset in `exports/master_data/` for inspection, filtering, mapping, and historical movement review. The HTML file is part of the repository; it is not a hosted web service.
 
-**Explorer v0.9.11** opens with an online OpenStreetMap street basemap at a neutral global view without requiring Reload Map Tiles, and automatically fits loaded node positions. The v0.9.10 startup and historical data-loading workflow was user-tested and accepted in Safari 26.5; v0.9.11 was subsequently tested on Safari 26.5 with seven real source databases (664 unique nodes); map selection and both detail cards worked following a page refresh. Exhaustive filtering was not claimed. See [Explorer instructions](explorer/EXPLORER_README.md).
+**Explorer v0.9.12** preserves interactive Leaflet mapping in Online and Offline modes. Offline uses a dark basemap without starting new map-tile or terrain-elevation requests; it is not a guaranteed zero-network mode because library assets and requests already in progress may still use the network. Safari 26.5 acceptance covered pan, zoom, node selection/details, Fit Main/All, and online tile reloading. Earlier Explorer v0.9.11 acceptance remains documented in the compatibility history. See [Explorer instructions](explorer/EXPLORER_README.md).
 
 Processing chosen node files is local, but the online map library, map tiles, and terrain elevation service may contact external hosts; coordinates may be sent for elevation requests. The fallback offline coordinate plot is not a downloadable regional map. Review [third-party licensing, attribution, and network privacy](THIRD_PARTY_NOTICES.md).
 
@@ -38,3 +38,5 @@ Copyright (c) 2026 **securecomp**. MeshWrangler's independently authored code is
 ## Planned enhancements
 
 Locally packaged, license-compliant regional maps and terrain data with explicit online/offline modes; aircraft-candidate classification refinement; more rigorous historical coverage/activity analysis beyond the existing exploratory RF/activity views; and review of unresolved name and public-key conflicts. These enhancements are not present in this version.
+
+Component versions are independent of the GitHub release tag. See `MANIFEST.md` and `COMPONENT_VERSIONS.json` for the assembled source version inventory.

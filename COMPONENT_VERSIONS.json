@@ -1,0 +1,72 @@
+{
+  "assembled_release": "v1.1.0",
+  "baseline_release": "v1.0.0",
+  "components": {
+    "src/meshtastic_consolidate_v2.py": {
+      "baseline_sha256": "330439fbb4eb50c55cc17889c2340bf4256b6fa11ce12a515c4c9d0b66e6a983",
+      "baseline_version": "v2.0.0",
+      "changed_from_baseline": false,
+      "changed_from_predecessor": false,
+      "predecessor_sha256": "330439fbb4eb50c55cc17889c2340bf4256b6fa11ce12a515c4c9d0b66e6a983",
+      "predecessor_version": "v2.0.0",
+      "sha256": "330439fbb4eb50c55cc17889c2340bf4256b6fa11ce12a515c4c9d0b66e6a983",
+      "version": "v2.0.0"
+    },
+    "src/meshtastic_explorer.html": {
+      "baseline_sha256": "731b928dd2c1a898a9c083ebbbe37faa374fae817389d06f7070c7bc77340d96",
+      "baseline_version": "v0.9.11",
+      "changed_from_baseline": true,
+      "changed_from_predecessor": false,
+      "predecessor_sha256": "12d75ab0bb90ab0cf5f25ff2d7efc033fb3b8aaee21fd9566a4ec94e14739a43",
+      "predecessor_version": "v0.9.12",
+      "sha256": "12d75ab0bb90ab0cf5f25ff2d7efc033fb3b8aaee21fd9566a4ec94e14739a43",
+      "version": "v0.9.12"
+    },
+    "src/meshtastic_master_export_v1.py": {
+      "baseline_sha256": "c70995015410f9ea17364e274ff4afa55b55445e22b412c4fe0180eadb326f53",
+      "baseline_version": "v1.0.0",
+      "changed_from_baseline": true,
+      "changed_from_predecessor": false,
+      "predecessor_sha256": "e95ca7fa1334b396423117920173a4034d1ae45fb57d679ba59440192e5275a7",
+      "predecessor_version": "v1.1.0",
+      "sha256": "e95ca7fa1334b396423117920173a4034d1ae45fb57d679ba59440192e5275a7",
+      "version": "v1.1.0"
+    },
+    "src/meshtastic_quality_flags_review_v1.py": {
+      "baseline_sha256": "733d0c921707dd53d60562706cada9cad34fa0b085db1a3f002fe644514a4997",
+      "baseline_version": "v1.0.0",
+      "changed_from_baseline": false,
+      "changed_from_predecessor": false,
+      "predecessor_sha256": "733d0c921707dd53d60562706cada9cad34fa0b085db1a3f002fe644514a4997",
+      "predecessor_version": "v1.0.0",
+      "sha256": "733d0c921707dd53d60562706cada9cad34fa0b085db1a3f002fe644514a4997",
+      "version": "v1.0.0"
+    },
+    "src/meshtastic_snapshot_export_v2.py": {
+      "baseline_sha256": "f3838127b96ce9b3f47524dc678fd5561d7954e9f9e63f784d9cfa7f79480679",
+      "baseline_version": "v2.0.0",
+      "changed_from_baseline": true,
+      "changed_from_predecessor": false,
+      "predecessor_sha256": "ccbe252076e47560e21a39a188618291fbae1c6ded4a64f1676889056c9b16df",
+      "predecessor_version": "v2.1.0",
+      "sha256": "ccbe252076e47560e21a39a188618291fbae1c6ded4a64f1676889056c9b16df",
+      "version": "v2.1.0"
+    },
+    "src/wrangle_it_v1.sh": {
+      "baseline_sha256": "644828a6590ee7dca19ba251b0a69be2af167d8fb95d5deabfd585af215d5454",
+      "baseline_version": "v1.0.0",
+      "changed_from_baseline": false,
+      "changed_from_predecessor": false,
+      "predecessor_sha256": "644828a6590ee7dca19ba251b0a69be2af167d8fb95d5deabfd585af215d5454",
+      "predecessor_version": "v1.0.0",
+      "sha256": "644828a6590ee7dca19ba251b0a69be2af167d8fb95d5deabfd585af215d5454",
+      "version": "v1.0.0"
+    }
+  },
+  "predecessor_checkpoint": {
+    "filename": "MeshWrangler_VERSION_RECONCILED_CANDIDATE_2026-10-15.zip",
+    "rule": "Immediately preceding ACCEPTED candidate ZIP; next candidate MUST pin this candidate ZIP SHA-256",
+    "sha256": "28ce4bf81812cb0a0593101f78d3b43ab3a9fce9d497b24584b4004138692a2e"
+  },
+  "state": "release candidate, unpublished"
+}

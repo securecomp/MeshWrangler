@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# MeshWrangler component version: v1.1.0
 """Batch-export indexed Meshtastic Apple application database snapshots.
 
 Run from the source collection directory (currently NodeBackups/).
@@ -90,7 +91,10 @@ def ensure_under(parent, relative):
     rel = Path(relative)
     if rel.is_absolute() or '..' in rel.parts or len(rel.parts) != 1:
         raise ValueError(f'Unsafe source directory path: {relative!r}')
-    return parent / rel
+    resolved = (parent / rel).resolve()
+    if not resolved.is_relative_to(parent.resolve()):
+        raise ValueError(f'Source directory escapes root: {relative!r}')
+    return resolved
 
 
 def main():
@@ -111,6 +115,8 @@ def main():
     if not entries:
         parser.error('No entries in backup-index.json')
     destination = root / 'exports'
+    if not destination.resolve().is_relative_to(root):
+        parser.error('Exports directory escapes source root')
     destination.mkdir(exist_ok=True)
     results = []
     claimed = set()
@@ -119,7 +125,7 @@ def main():
                 'node_num': entry.get('nodeNum'), 'status': 'failed', 'time_utc': utc_now()}
         try:
             folder = ensure_under(root, entry['backupPath'])
-            if folder.name != device_id or entry.get('deviceId') != device_id:
+            if folder.name != device_id or entry.get('deviceId', device_id) != device_id:
                 raise ValueError('Index device ID / source directory mismatch')
             db = folder / 'Meshtastic.store'
             if not db.is_file():
