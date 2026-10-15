@@ -1,20 +1,24 @@
-# Compatibility and test status
+# Compatibility
 
-Status terms: **Accepted** means the user has validated the behavior; **Observed** means a version or environment is known but not an independently verified compatibility combination; **Pending** means no test claim is made.
+**MeshWrangler release:** v1.1.0  
+**Explorer component:** v0.9.12
 
-| Component | Version / platform | Status and scope |
+The configurations below describe observed or tested behavior, not a guarantee of compatibility with every version or device.
+
+| Component | Version / environment | Verification |
 |---|---|---|
-| Export/consolidation pipeline | Four distributed Python scripts (individual component versions in MANIFEST.md); MeshWrangler v1.1.0 candidate | Launcher and all three stages user-confirmed with three real app backups (229 unique nodes, 261 positions, 390 telemetry) on macOS for the SEC06_COMPAT candidate; earlier seven-device run also recorded; exact Python interpreter/build not independently captured |
-| MeshWrangler Explorer | v0.9.12 | User-tested in Safari 26.5: Offline/Online pan, zoom, fit, node selection/details; online tile reload. Earlier v0.9.11 also tested with seven-device history; exhaustive filters not tested |
-| Python | 3.14 on MacBook Neo | Installed/observed; exact original acceptance-test version pending |
-| macOS | Tahoe 26.5.1 | Reported development environment; Safari 26.5 tested |
-| Meshtastic Apple app | 2.7.x family; 2.7.54 observed | App-version-specific extraction regression matrix pending |
-| Meshtastic radio firmware | 2.7.26 known firmware target | End-to-end compatibility not established; exporter reads application snapshot, not radio firmware directly |
-| iOS | Version not captured | Pending |
-| Browser | Safari 26.5 on macOS | Safari 26.5 user-tested with Explorer v0.9.12 and earlier v0.9.11 |
+| Processing pipeline | macOS Tahoe 26.5.1 | **Tested:** the master exporter, consolidator, and quality-review stages completed using three actual application backup snapshots: 229 unique nodes, 261 positions, and 390 telemetry records. |
+| Python | Python 3; 3.14 observed in the development environment | Python 3 is required. The exact interpreter version used for the successful three-device run was not captured; Python 3.14 is **not** claimed as a separately validated configuration. Processing scripts use the Python standard library. |
+| Explorer | v0.9.12; Safari 26.5 on macOS | **Tested:** interactive mapping in Online and Offline modes, pan, zoom, Fit controls, node selection and details, and online map-tile reload. Exhaustive filter testing has not been performed. |
+| Source application | Meshtastic iOS application, 2.7.x family; 2.7.54 observed | Actual application-generated backup snapshots were processed successfully. A version-by-version application compatibility matrix has not been established. |
+| iOS | Exact source-device version not recorded | No specific iOS-version compatibility claim. |
+| Radio firmware | Not applicable to direct file processing | MeshWrangler processes exported application data; it does not communicate directly with radio firmware. |
 
-No untested combinations should be described as supported/validated. Database schema changes in later app versions may require exporter updates. The Explorer's compatibility boundary is exported JSON structure, not radio firmware.
+## Compatibility boundaries
 
-Explorer v0.9.11 preserved v0.9.10 startup behavior and was subsequently field-tested in Safari 26.5. Interactive map/node cards passed following a refresh. Exhaustive filtering and all possible platform combinations were not tested.
+- Export compatibility depends on the structure of the application-generated database snapshots. Changes to that structure may require an exporter update.
+- The Explorer reads generated JSON data. Its compatibility depends on that output format and browser capabilities, not on radio firmware.
+- Offline mapping supports interaction without requesting new map tiles or terrain batches, but it is **not** a guaranteed zero-network mode; existing requests may finish, and initial map resources may require network access or a browser cache.
+- Versions and combinations not specifically described as tested above remain **unverified**.
 
-Target assembled release: v1.1.0 (candidate, not published). This is not the published v1.0.0 baseline.
+See [Processing](PROCESSING.md) for the workflow and [Explorer README](../explorer/EXPLORER_README.md) for viewer instructions.
