@@ -1,12 +1,13 @@
-# Distribution manifest — MeshWrangler v1.1.0 (release candidate)
+<!-- Document-ID: MeshWrangler/MANIFEST.md; Document-Version: 1.1.1; Previous-Document-Version: unversioned; Document-Revised: 2026-10-15 -->
+# Distribution manifest — MeshWrangler v1.1.0
 
-MeshWrangler includes four Python utilities under `src/`, the HTML Explorer v0.9.12 and `wrangle_it_v1.sh` launcher alongside the four Python scripts in `src/`, instructions, license, and third-party notices. This development archive includes SHA256SUMS for all distributed files except itself; final release checksums will be regenerated at release freeze.
+MeshWrangler includes four Python utilities, the HTML Explorer v0.9.12, and the `wrangle_it_v1.sh` launcher under `src/`, plus instructions, license, and third-party notices. The published v1.1.0 release is frozen. The `main` branch may have subsequent documentation-only commits; `SHA256SUMS` describes the exact current source tree when updated together with those commits.
 
 The source distribution excludes all user datasets and working copies, including SQLite `.store` databases, `backup-index.json`, positions, messages, telemetry, CSV/JSON exports and identifying observations. Never commit private `NodeBackups/` content.
 
-At final release packaging, generate `SHA256SUMS` covering every distributed file except itself; verify from the repository root with `shasum -a 256 -c SHA256SUMS`. This development archive contains a checked SHA256SUMS manifest; no final publication checksum has been issued. Checksums verify file integrity, not publisher authenticity. See `docs/COMPATIBILITY.md` for test status and `docs/ROADMAP.md` for unimplemented features.
+`SHA256SUMS` covers every tracked distribution file except itself. Verify from the repository root with `shasum -a 256 -c SHA256SUMS`. Regenerate it after any source or documentation edit, before committing the updated source tree. Checksums verify file integrity, not publisher authenticity. See `docs/COMPATIBILITY.md` for test status and `docs/ROADMAP.md` for unimplemented features.
 
-## Component versions in assembled v1.1.0 candidate
+## Component versions in published v1.1.0
 
 Individual components retain stable filenames and version independently. Unmodified components retain their baseline versions.
 

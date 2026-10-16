@@ -1,11 +1,12 @@
+<!-- Document-ID: MeshWrangler/CHANGELOG.md; Document-Version: 1.1.1; Previous-Document-Version: unversioned; Document-Revised: 2026-10-15 -->
 # Changelog
 
-## v1.1.0 — Release candidate (not published)
+## v1.1.0 — Released 2026-10-15
 
 - SEC-01–SEC-06: browser/output escaping, terrain-request guard, filesystem containment and optional application index `deviceId` handling.
 - FUNC-01: interactive dark Leaflet mapping in Offline mode, validated in Safari 26.5.
 - Reconcile independently versioned components and add predecessor-comparison version, checksum and permission checks.
-- SEC-07 dependency review completed; final publication gate pending.
+- SEC-07 dependency review and SEC-08 publication audit completed.
 
 ## v1.0.0 — Initial release
 

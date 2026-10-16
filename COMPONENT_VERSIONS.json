@@ -68,5 +68,9 @@
     "rule": "Immediately preceding ACCEPTED candidate ZIP; next candidate MUST pin this candidate ZIP SHA-256",
     "sha256": "28ce4bf81812cb0a0593101f78d3b43ab3a9fce9d497b24584b4004138692a2e"
   },
-  "state": "release candidate, unpublished"
+  "state": "v1.1.0 published; main branch includes post-release documentation updates; release tag unchanged",
+  "document_id": "MeshWrangler/COMPONENT_VERSIONS.json",
+  "document_version": "1.1.1",
+  "document_revised": "2026-10-15",
+  "previous_document_version": "unversioned"
 }

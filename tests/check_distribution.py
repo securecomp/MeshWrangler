@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# MeshWrangler test-tool version: v1.0.1
 """MeshWrangler fail-closed distribution/history gate.
 Usage: python3 tests/check_distribution.py CANDIDATE.zip IMMEDIATE_PREDECESSOR.zip [V1_BASELINE.zip]
 The pinned predecessor SHA256 prevents accidentally testing against the wrong checkpoint.
@@ -23,8 +24,11 @@ with zipfile.ZipFile(sys.argv[1]) as candidate,zipfile.ZipFile(sys.argv[2]) as p
     old_inv=json.loads(old['COMPONENT_VERSIONS.json'])
     assert inv['assembled_release']=='v1.1.0'
     assert '# Distribution manifest — MeshWrangler v1.1.0' in read('MANIFEST.md').decode()
-    assert '## v1.1.0 — Release candidate' in read('CHANGELOG.md').decode()
+    assert '## v1.1.0 — Released' in read('CHANGELOG.md').decode()
     assert set(inv['components'])==set(old_inv['components']), 'Component inventory changed unexpectedly'
+    assert inv.get('document_version'), 'Component inventory missing document revision'
+    for doc in ('MANIFEST.md','CHANGELOG.md','docs/COMPATIBILITY.md'):
+        assert f'Document-ID: MeshWrangler/{doc}; Document-Version:' in read(doc).decode(), f'Missing document revision: {doc}'
     for p,meta in inv['components'].items():
         assert p in old and p in paths, f'Component missing: {p}'
         prev=old_inv['components'][p];current=read(p)

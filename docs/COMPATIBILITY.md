@@ -1,3 +1,4 @@
+<!-- Document-ID: MeshWrangler/docs/COMPATIBILITY.md; Document-Version: 1.1.1; Previous-Document-Version: unversioned; Document-Revised: 2026-10-15 -->
 # Compatibility
 
 **MeshWrangler release:** v1.1.0  
